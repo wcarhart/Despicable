@@ -13,4 +13,8 @@ class Nefario(threading.Thread):
 		thread_task(self.input_queue, self.output_queue, self.result_queue, self.thread_max)
 
 def thread_task(input_queue, output_queue, result_queue, thread_max):
-	return
+	for thread_id in range(thread_max):
+		minion = Minion(thread_id, input_queue, output_queue, result_queue)
+		minion.daemon = True
+		minion.start()
+	input_queue.join()
