@@ -15,7 +15,7 @@ class Minion(threading.Thread):
 	def run(self):
 		thread_task(self.thread_id, self.input_queue, self.output_queue, self.result_queue)
 
-def run(thread_id, input_queue, output_queue, result_queue):
+def thread_task(thread_id, input_queue, output_queue, result_queue):
 	while True:
 		cmd_id, cmd = input_queue.get()
 		thread_tuple = (thread_id, "Starting thread for CID {}: {}".format(cmd_id, cmd))
@@ -30,4 +30,3 @@ def run(thread_id, input_queue, output_queue, result_queue):
 		output_queue.put(thread_tuple)
 		input_queue.task_done()
 		result_queue.put(cmd)
-		
