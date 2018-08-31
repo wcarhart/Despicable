@@ -32,6 +32,9 @@ def update(total, progress, message):
 	if progress >= 1.0:
 		progress = 1.0
 
+	if message == "":
+		message = "Processing"
+
 	block = int(round(bar_length * progress))
 	progress_bar = "\r[{}] {:.0f}% ({})".format(">" * block + " " * (bar_length - block), round(progress * 100, 0), message)
 	word = "task" if total - index == 1 else "tasks"
