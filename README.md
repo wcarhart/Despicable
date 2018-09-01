@@ -1,5 +1,5 @@
 # Despicable
-Multithreading framework for Python + Bash tasks
+*Multithreading framework for Python + Bash tasks*
 
 `Despicable` acts as a parallelizer for shell commands. The tool allows you to run multiple shell commands in parallel.
 
