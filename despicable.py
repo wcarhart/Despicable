@@ -44,8 +44,9 @@ def pwede_na(cmd_list, message):
 
 def parse_commands(commands, command_file):
 	command_list = []
-	for command in commands:
-		command_list.append(command)
+	if commands:
+		for command in commands:
+			command_list.append(command)
 
 	if command_file:
 		with open(command_file) as f:
@@ -54,6 +55,10 @@ def parse_commands(commands, command_file):
 				command_list.append(command)
 		f.close()
 
+	if len(command_list) == 0:
+		logging.error("No valid commmands detected")
+		sys.exit(1)
+		
 	pwede_na(command_list, "Testing")
 
 def signal_handler():
