@@ -26,7 +26,7 @@ def thread_task(thread_id, input_queue, output_queue, result_queue):
 
 		thread_tuple = (thread_id, "STDOUT from CID {}: ".format(cmd_id) + out)
 		output_queue.put(thread_tuple)
-		thread_tuple = (thread_id, "STDERR from CID {}: ".format(cmd_id) + err)
+		thread_tuple = (thread_id, "STDERR from CID {}: ".format(cmd_id) + str(err))
 		output_queue.put(thread_tuple)
 		input_queue.task_done()
 		result_queue.put(cmd)

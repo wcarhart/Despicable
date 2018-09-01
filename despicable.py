@@ -3,24 +3,19 @@ import os
 import argparse
 import logging
 import signal
-import atexit
 import time
 import datetime
 import Queue
 import traceback
 
 from despicable import *
-
 from spinner import Spinner
-from exithooks import ExitHooks
 
-def pwede_na(cmd_list, status, message):
+def pwede_na(cmd_list, message):
 	"""Minionese for 'can we start?'"""
 	input_queue = Queue.Queue()
 	output_queue = Queue.Queue()
 	result_queue = Queue.Queue()
-
-	# TODO: is status needed? Check against og
 
 	total = len(cmd_list)
 	for index, cmd in enumerate(cmd_list):
@@ -33,6 +28,8 @@ def pwede_na(cmd_list, status, message):
 	else:
 		word = 'threads'
 
+	print "\n"
+	spinner.start()
 	spawner = Nefario(input_queue, output_queue, result_queue, thread_cap)
 	spawner.start()
 	handler = Gru(result_queue, total, message)
@@ -42,6 +39,8 @@ def pwede_na(cmd_list, status, message):
 
 	for thread_id, thread_message in Drain(output_queue):
 		continue
+
+	spinner.stop()
 
 def parse_commands(commands, command_file):
 	command_list = []
@@ -55,9 +54,7 @@ def parse_commands(commands, command_file):
 				command_list.append(command)
 		f.close()
 
-	print command_list
-	#sys.exit(0)
-	pwede_na(command_list, 0, "Testing")
+	pwede_na(command_list, "Testing")
 
 def signal_handler():
 	spinner.stop()
@@ -65,16 +62,6 @@ def signal_handler():
 	time.sleep(0.5)
 	logging.debug("Exiting from keyboard interrupt")
 	sys.exit(0)
-
-def exit_handler():
-	spinner.stop()
-	# if hooks.exit_code is not None and not hooks.exit_code == 0:
-	# 	logging.error("Exiting with error code {}".format(hooks.exit_code))
-	# elif hooks.exception is not None:
-	# 	logging.error("Exiting due to uncaught exception: \n{}".format(hooks.exception))
-	# 	traceback.print_exc()
-	# else:
-	# 	logging.debug("Clean exit")
 
 def build_parser():
 	parser = argparse.ArgumentParser(description=__doc__, formatter_class = argparse.ArgumentDefaultsHelpFormatter)
@@ -93,10 +80,6 @@ def main():
 	args = parser.parse_args()
 	
 	signal.signal(signal.SIGINT, signal_handler)
-	# global hooks
-	# hooks = ExitHooks()
-	# hooks.hook()
-	# atexit.register(exit_handler)
 
 	global spinner
 	spinner = Spinner()
