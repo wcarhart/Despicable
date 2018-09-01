@@ -1,6 +1,0 @@
-ERROR 2018-08-31 15:48:30 despicable (exit_handler): Exiting due to uncaught exception: 
-local variable 'commands_from_file' referenced before assignment
-ERROR 2018-08-31 15:55:25 despicable (exit_handler): Exiting due to uncaught exception: 
-local variable 'commands_from_file' referenced before assignment
-ERROR 2018-08-31 15:58:41 despicable (exit_handler): Exiting due to uncaught exception: 
-'module' object is not callable
