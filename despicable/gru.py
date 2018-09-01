@@ -1,6 +1,6 @@
 import threading
 import sys
-import queue
+import Queue
 
 class Gru(threading.Thread):
 	def __init__(self, result_queue, total, message=""):

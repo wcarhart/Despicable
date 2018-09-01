@@ -1,10 +1,10 @@
 import threading
-import queue
+import Queue
 from minion import Minion
 
 class Nefario(threading.Thread):
 	def __init__(self, input_queue, output_queue, result_queue, thread_max):
-		thread.Thread.__init__(self)
+		threading.Thread.__init__(self)
 		self.input_queue = input_queue
 		self.output_queue = output_queue
 		self.result_queue = result_queue

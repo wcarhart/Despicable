@@ -1,6 +1,6 @@
 import threading
 import sys
-import queue
+import Queue
 
 from subprocess import PIPE
 from subprocess import Popen

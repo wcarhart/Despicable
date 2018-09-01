@@ -1,4 +1,4 @@
-import queue
+import Queue
 
 class Drain(object):
 	def __init__(self, queue):
