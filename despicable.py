@@ -92,10 +92,6 @@ def build_parser():
 def main():
 	parser = build_parser()
 	args = parser.parse_args()
-
-	if not (args.commands and args.command_file):
-		print "Despicable: err: at least one of -t/--thread-max or -f/--command-file is required"
-		sys.exit(1)
 	
 	signal.signal(signal.SIGINT, signal_handler)
 
