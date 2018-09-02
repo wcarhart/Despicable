@@ -46,7 +46,7 @@ def pwede_na(cmd_list, message):
 	logging.debug("Concurrent execution completed")
 
 	for thread_id, thread_message in Drain(output_queue):
-		continue
+		logging.debug("Output from TID {}: {}".format(thread_id, thread_message))
 
 def parse_commands(commands, command_file, message):
 	command_list = []
