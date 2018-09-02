@@ -58,6 +58,8 @@ def parse_commands(commands, command_file, message):
 		with open(command_file) as f:
 			commands_from_file = f.read().splitlines()
 			for command in commands_from_file:
+				if command == "":
+					continue
 				if not command[0] == '#':
 					command_list.append(command)
 		f.close()
@@ -82,15 +84,18 @@ def build_parser():
 	parser.add_argument('-c', '--commands', type=str, nargs="+", required=False, help="a command to be parallelized (must be wrapped in double quotes)")
 	parser.add_argument('-f', '--command-file', type=str, default="Despicablefile", required=False, help="name of the file that contains commands to be parallelized")
 	parser.add_argument('-m', '--message', type=str, nargs=1, default="Processing", help="The message to be displayed during concurrent execution")
-	log_levels = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
-	parser.add_argument('--log-level', type=str, choices=log_levels, default="INFO", required=False, help="The level at which to log information during execution")
+	parser.add_argument('--log-level', type=str, choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'], default="INFO", required=False, help="The level at which to log information during execution")
 	parser.add_argument('--log-file', type=str, default="despicable_logs.txt", required=False, help="The file to log info to during execution")
-	parser.add_argument('-o', '--omit-logs', action='store_true', default=False, help="if included, information will not be logged")
+	parser.add_argument('-o', '--omit-logs', action='store_true', default=False, required=False, help="if included, information will not be logged")
 	return parser
 
 def main():
 	parser = build_parser()
 	args = parser.parse_args()
+
+	if not (args.commands and args.command_file):
+		print "Despicable: err: at least one of -t/--thread-max or -f/--command-file is required"
+		sys.exit(1)
 	
 	signal.signal(signal.SIGINT, signal_handler)
 
