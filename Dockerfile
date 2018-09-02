@@ -1,5 +1,7 @@
 FROM python:2.7-alpine
 
+MAINTAINER Will Carhart wcarhart@sandiego.edu
+
 WORKDIR /
 
 ENV THREAD_MAX=""

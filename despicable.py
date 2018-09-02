@@ -8,7 +8,6 @@ import argparse
 import logging
 import signal
 import time
-import datetime
 import Queue
 import traceback
 
@@ -55,14 +54,19 @@ def parse_commands(commands, command_file, message):
 			command_list.append(command)
 
 	if command_file:
-		with open(command_file) as f:
-			commands_from_file = f.read().splitlines()
-			for command in commands_from_file:
-				if command == "":
-					continue
-				if not command[0] == '#':
-					command_list.append(command)
-		f.close()
+		try:
+			with open(command_file) as f:
+				commands_from_file = f.read().splitlines()
+				for command in commands_from_file:
+					if command == "":
+						continue
+					if not command[0] == '#':
+						command_list.append(command)
+			f.close()
+		except EnvironmentError:
+			logging.error("Cannot open command file: {}".format(command_file))
+			print "Depsicable: err: cannot open command file: {}".format(command_file)
+			sys.exit(1)
 
 	if len(command_list) == 0:
 		logging.error("No valid commmands detected")
