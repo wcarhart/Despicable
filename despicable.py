@@ -24,17 +24,17 @@ def pwede_na(cmd_list, message):
 	total = len(cmd_list)
 	for index, cmd in enumerate(cmd_list):
 		cmd_tuple = (index, cmd)
-		logging.debug("Queueing CID {}: `{}`".format(index, cmd))
+		logging.info("Queueing CID {}: `{}`".format(index, cmd))
 		input_queue.put(cmd_tuple)
 	thread_cap = total if total < THREAD_MAX else THREAD_MAX
-	logging.debug("Selected thread cap: {}".format(thread_cap))
+	logging.info("Selected thread cap: {}".format(thread_cap))
 
 	if thread_cap == 1:
 		word = 'thread'
 	else:
 		word = 'threads'
 
-	logging.debug("Starting concurrent execution")
+	logging.info("Starting concurrent execution")
 	spinner.start()
 	spawner = Nefario(input_queue, output_queue, result_queue, thread_cap)
 	spawner.start()
@@ -43,10 +43,10 @@ def pwede_na(cmd_list, message):
 	spawner.join()
 	handler.join()
 	spinner.stop()
-	logging.debug("Concurrent execution completed")
+	logging.info("Concurrent execution completed")
 
 	for thread_id, thread_message in Drain(output_queue):
-		logging.debug("Output from TID {}: {}".format(thread_id, thread_message))
+		logging.info("Output from TID {}: {}".format(thread_id, thread_message))
 
 def parse_commands(commands, command_file, message):
 	command_list = []
@@ -64,6 +64,7 @@ def parse_commands(commands, command_file, message):
 
 	if len(command_list) == 0:
 		logging.error("No valid commmands detected")
+		print "Despicable: err: no valid commands detected"
 		sys.exit(1)
 
 	pwede_na(command_list, str(message).strip('[').strip(']').strip("'"))
@@ -72,7 +73,7 @@ def signal_handler():
 	spinner.stop()
 	print " Aborting despicable..."
 	time.sleep(0.5)
-	logging.debug("Exiting from keyboard interrupt")
+	logging.info("Exiting from keyboard interrupt")
 	sys.exit(0)
 
 def build_parser():
@@ -113,8 +114,8 @@ def main():
 		datefmt="%Y-%m-%d %H:%M:%S"
 	)
 
-	logging.debug("Successful logging init")
-	logging.debug("Selected maximum number of threads: {}".format(THREAD_MAX))
+	logging.info("Successful logging init")
+	logging.info("Selected maximum number of threads: {}".format(THREAD_MAX))
 
 	parse_commands(args.commands, args.command_file, args.message)
 
