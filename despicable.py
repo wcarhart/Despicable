@@ -1,5 +1,5 @@
 """
-Multithreading framework for command line tasks
+Lightweight multithreading framework for command line tasks
 """
 
 import sys
