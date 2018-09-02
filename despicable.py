@@ -28,7 +28,6 @@ def pwede_na(cmd_list, message):
 	else:
 		word = 'threads'
 
-	print "\n"
 	spinner.start()
 	spawner = Nefario(input_queue, output_queue, result_queue, thread_cap)
 	spawner.start()
@@ -58,7 +57,8 @@ def parse_commands(commands, command_file):
 	if len(command_list) == 0:
 		logging.error("No valid commmands detected")
 		sys.exit(1)
-		
+
+	print "\n"
 	pwede_na(command_list, "Testing")
 
 def signal_handler():
@@ -76,7 +76,7 @@ def build_parser():
 	log_levels = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
 	parser.add_argument('--log-level', type=str, choices=log_levels, default="INFO", required=False, help="The level at which to log information during execution")
 	parser.add_argument('--log-file', type=str, default="despicable_logs.txt", required=False, help="The file to log info to during execution")
-	# TODO: finish omot-logs
+	# TODO: finish omit-logs
 	parser.add_argument('-o', '--omit-logs', action='store_true', default=False, help="if included, information will not be logged")
 	return parser
 
@@ -89,8 +89,10 @@ def main():
 	global spinner
 	spinner = Spinner()
 
-	numeric_log_level = getattr(logging, args.log_level.upper(), None)
+	global THREAD_MAX
+	THREAD_MAX = args.thread_max
 
+	numeric_log_level = getattr(logging, args.log_level.upper(), None)
 	frmt = '%(levelname)s %(asctime)s %(module)s (%(funcName)s): %(message)s'
 	logging.basicConfig(
 		filename="despicable_logs.txt",
@@ -99,8 +101,10 @@ def main():
 		datefmt="%Y-%m-%d %H:%M:%S"
 	)
 
-	global THREAD_MAX
-	THREAD_MAX = args.thread_max
+	if args.commands:
+		if not len([term for term in args.commands if '"' in term]) == len(args.commands):
+			print "Commands entered via the command line must be wrapped in double quotes:\n command --> invalid\n \"command\" --> valid"
+			sys.exit(1)
 
 	# TODO
 	parse_commands(args.commands, args.command_file)
