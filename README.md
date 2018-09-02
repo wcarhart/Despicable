@@ -6,7 +6,7 @@
 For example, perhaps you'd like to copy a very large file while also compressing some other files. This can easily be accomplished with `Despicable`.
 
 ## Usage
-`Despicable` is a Python CLI. You can either list commands via the command line:
+`Despicable` is a Python CLI. You can either list commands via the command line (note that commands *MUST* be wrapped in quotes):
 ```
 python despicable.py -c "cmd0" "cmd1" "cmd2"
 ```
@@ -53,7 +53,7 @@ bzip2 -z data.txt
 scp big_file.json username@remotehost.edu:/some/remote/directory
 qbittorrent-nox
 ```
-You could run this either by:
+You could run this either by (note that commands *MUST* be wrapped in quotes):
 ```
 python despicable.py -c "cp /source/largefile.csv /destination/" "bzip2 -z data.txt" "scp big_file.json username@remotehost.edu:/some/remote/directory" "qbittorrent-nox"
 ```
