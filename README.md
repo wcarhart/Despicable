@@ -26,6 +26,8 @@ usage: despicable.py [-h] [-t THREAD_MAX] [-c COMMANDS [COMMANDS ...]]
                      [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                      [--log-file LOG_FILE] [-o]
 
+Multithreading framework for command line tasks
+
 optional arguments:
   -h, --help            show this help message and exit
   -t THREAD_MAX, --thread-max THREAD_MAX
