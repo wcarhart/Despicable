@@ -1,9 +1,11 @@
 # Despicable
-*Multithreading framework for command line tasks*
+*Lightweight multithreading framework for command line tasks*
 
 `Despicable` acts as a parallelizer for shell commands. The tool allows you to run multiple shell commands in parallel.
 
 For example, perhaps you'd like to copy a very large file while also compressing some other files. This can easily be accomplished with `Despicable`.
+
+## Architecture Explained
 
 ## Usage
 `Despicable` is a Python CLI. You can either list commands via the command line (note that commands *MUST* be wrapped in quotes):
@@ -18,6 +20,7 @@ or both:
 ```
 python despicable.py -c "cmd0" "cmd1" -f command_list.txt
 ```
+*Note that the default command file is called the `Despicablefile`. If you put your commands in the `Despicablefile`, you do not need to specify the `-f` flag as `Despicable` will look in `Despicablefile` for commands by default.*
 
 **Here is the full list of options:**
 ```
@@ -26,7 +29,7 @@ usage: despicable.py [-h] [-t THREAD_MAX] [-c COMMANDS [COMMANDS ...]]
                      [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                      [--log-file LOG_FILE] [-o]
 
-Multithreading framework for command line tasks
+Lightweight multithreading framework for command line tasks
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -37,7 +40,7 @@ optional arguments:
                         double quotes) (default: None)
   -f COMMAND_FILE, --command-file COMMAND_FILE
                         name of the file that contains commands to be
-                        parallelized (default: None)
+                        parallelized (default: Despicablefile)
   -m MESSAGE, --message MESSAGE
                         The message to be displayed during concurrent
                         execution (default: Processing)
@@ -79,7 +82,17 @@ $ python despicable.py -f command_list.txt
 [>>>>>>>>>>>>>>>               ] 50% (Processing)
 \ 2 tasks remaining
 ```
+**Try it yourself:** put the following commands in `Despicablefile`:
+```
+sleep 10
+sleep 5
+sleep 1
+sleep 15
+```
+and then run `python despicable.py` to see `Despicable` work!
 
 ## Logging
+Logs from `Despicable` will default to `despicable_logs.txt`, but the log file can be changed with the `--log-file` option. You can also specify the log level with the `--log-level` option. Logs will include the communication from each `Minion` thread, indicating the `STDOUT` and `STDERR` for each spawned `Minion`.
 
 ## Comments
+`Despicable` attempts to be lightweight and portable, meaning that it can be used with any tool or command that can be written as a single command in `BASH` or similar shells. Please log and issue or fork and open a PR if you have any questions or concerns.
