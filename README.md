@@ -1,5 +1,5 @@
 # Despicable
-*Multithreading framework for Python + Bash tasks*
+*Multithreading framework for command line tasks*
 
 `Despicable` acts as a parallelizer for shell commands. The tool allows you to run multiple shell commands in parallel.
 
@@ -22,7 +22,7 @@ python despicable.py -c "cmd0" "cmd1" -f command_list.txt
 **Here is the full list of options:**
 ```
 usage: despicable.py [-h] [-t THREAD_MAX] [-c COMMANDS [COMMANDS ...]]
-                     [-f COMMAND_FILE]
+                     [-f COMMAND_FILE] [-m MESSAGE]
                      [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                      [--log-file LOG_FILE] [-o]
 
@@ -36,6 +36,9 @@ optional arguments:
   -f COMMAND_FILE, --command-file COMMAND_FILE
                         name of the file that contains commands to be
                         parallelized (default: None)
+  -m MESSAGE, --message MESSAGE
+                        The message to be displayed during concurrent
+                        execution (default: Processing)
   --log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
                         The level at which to log information during execution
                         (default: INFO)
@@ -44,6 +47,7 @@ optional arguments:
   -o, --omit-logs       if included, information will not be logged (default:
                         False)
 ```
+You can also use the `-m` or `--message` option to customize the status message while tasks are being executed.
 
 ## Examples
 For demonstration purposes, suppose you would like to run the following commands in parallel:
@@ -66,6 +70,12 @@ cp /source/largefile.csv /destination/
 bzip2 -z data.txt
 scp big_file.json username@remotehost.edu:/some/remote/directory
 qbittorrent-nox
+```
+**Example output:**
+```
+$ python despicable.py -f command_list.txt
+[>>>>>>>>>>>>>>>               ] 50% (Processing)
+\ 2 tasks remaining
 ```
 
 ## Logging
