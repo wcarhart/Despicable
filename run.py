@@ -1,4 +1,6 @@
 import argparse
+import datetime
+import os
 from subprocess import call
 
 def build_run_command(args):
@@ -22,7 +24,7 @@ def build_run_command(args):
 
 	if args.command_file:
 		command_file = ' -e COMMAND_FILE=\'-f {}\''.format(args.command_file)
-		mounts += ' --mount type=bind,source={0},target=/{0}'.format(args.command_file,)
+		mounts += ' --mount type=bind,source={},target=/{}'.format(os.path.abspath(args.command_file), args.command_file)
 	else:
 		command_file = ' -e COMMAND_FILE=\'\''
 	cmd += command_file

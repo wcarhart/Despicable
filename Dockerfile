@@ -12,7 +12,7 @@ ENV LOG_LEVEL=""
 ENV LOG_FILE=""
 ENV OMIT_LOGS=""
 
-RUN mkdor /despicable
+RUN mkdir /despicable
 COPY despicable/minion.py /despicable/minion.py
 COPY despicable/gru.py /despicable/gru.py
 COPY despicable/nefario.py /despicable/nefario.py
