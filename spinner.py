@@ -15,6 +15,7 @@ class Spinner:
 		if delay and float(delay): self.delay = delay
 
 	def spinner_task(self):
+		print "\n"
 		while self.busy:
 			print "\033[A" + next(self.spinner_generator)
 			time.sleep(self.delay)
