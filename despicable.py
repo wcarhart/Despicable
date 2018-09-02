@@ -24,7 +24,7 @@ def pwede_na(cmd_list, message):
 	total = len(cmd_list)
 	for index, cmd in enumerate(cmd_list):
 		cmd_tuple = (index, cmd)
-		logging.debug("Queueing CID {} for command: `{}`".format(index, cmd))
+		logging.debug("Queueing CID {}: `{}`".format(index, cmd))
 		input_queue.put(cmd_tuple)
 	thread_cap = total if total < THREAD_MAX else THREAD_MAX
 	logging.debug("Selected thread cap: {}".format(thread_cap))
@@ -58,7 +58,8 @@ def parse_commands(commands, command_file, message):
 		with open(command_file) as f:
 			commands_from_file = f.read().splitlines()
 			for command in commands_from_file:
-				command_list.append(command)
+				if not command[0] == '#':
+					command_list.append(command)
 		f.close()
 
 	if len(command_list) == 0:
@@ -78,7 +79,7 @@ def build_parser():
 	parser = argparse.ArgumentParser(description=__doc__, formatter_class = argparse.ArgumentDefaultsHelpFormatter)
 	parser.add_argument('-t', '--thread-max', type=int, default=8, required=False, help="maximum number of threads")
 	parser.add_argument('-c', '--commands', type=str, nargs="+", required=False, help="a command to be parallelized (must be wrapped in double quotes)")
-	parser.add_argument('-f', '--command-file', type=str, default=None, required=False, help="name of the file that contains commands to be parallelized")
+	parser.add_argument('-f', '--command-file', type=str, default="Despicablefile", required=False, help="name of the file that contains commands to be parallelized")
 	parser.add_argument('-m', '--message', type=str, nargs=1, default="Processing", help="The message to be displayed during concurrent execution")
 	log_levels = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
 	parser.add_argument('--log-level', type=str, choices=log_levels, default="INFO", required=False, help="The level at which to log information during execution")
@@ -101,7 +102,7 @@ def main():
 	if args.omit_logs:
 		log_file = "/dev/null"
 	else:
-		log_file = "despicable_logs.txt"
+		log_file = args.log_file
 
 	numeric_log_level = getattr(logging, args.log_level.upper(), None)
 	frmt = '%(levelname)s %(asctime)s %(module)s (%(funcName)s): %(message)s'
