@@ -24,7 +24,7 @@ def pwede_na(cmd_list, message):
 	total = len(cmd_list)
 	for index, cmd in enumerate(cmd_list):
 		cmd_tuple = (index, cmd)
-		
+		logging.debug("Queueing CID {} for command: `{}`".format(index, cmd))
 		input_queue.put(cmd_tuple)
 	thread_cap = total if total < THREAD_MAX else THREAD_MAX
 	logging.debug("Selected thread cap: {}".format(thread_cap))
